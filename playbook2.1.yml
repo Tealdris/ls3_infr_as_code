@@ -1,0 +1,11 @@
+---
+
+- name: Delite default apache web server
+  hosts: all
+  become: yes
+
+  tasks:
+  - name: Delite apache web server
+    apt: name=apache2 state=absent
+  
+...

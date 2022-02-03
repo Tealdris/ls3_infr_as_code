@@ -1,0 +1,7 @@
+
+[staging_servers]
+linuxN ansible_host=172.31.25.173 owner=master
+
+[prod_servers]
+linux1 ansible_host=172.31.28.24 owner=agent
+

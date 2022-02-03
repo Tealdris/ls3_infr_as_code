@@ -1,0 +1,26 @@
+---
+
+- name: VARS
+  hosts: all
+  become: yes
+
+  vars:
+    message1: HI
+    message2: World
+    secret: 12345
+
+  tasks: 
+  - name: Print secret
+    debug:
+      var: secret
+  
+  - debug:
+      msg: "secret {{ secret }}"
+  
+  - debug:
+      msg: "Owner {{ owner }}"
+
+  - set_fact: full_message="{{ message1 }} {{ message2 }} from {{owner}} "
+
+  - debug:
+      var: full_message
