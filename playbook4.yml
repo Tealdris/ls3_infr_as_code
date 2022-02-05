@@ -24,3 +24,12 @@
 
   - debug:
       var: full_message
+ 
+  - debug:
+      var: ansible_distribution
+
+  - shell: uptime
+    register: results
+
+  - debug:
+      var: results
