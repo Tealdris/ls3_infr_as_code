@@ -9,18 +9,45 @@
     destin_file: /var/www/html
 
   tasks:
-  - name: install apache web server
-    apt: name=apache2 state=latest
+  - name: Check and print linux dist
+    debug: var=ansible_os_family   
 
-  - name: copy WebPage to server
-    copy: src={{ source_file }} dest={{ destin_file }} mode=0555
-    notify: Restart apache
 
-  - name: start web server and enable it on boot
-    service: name=apache2 state=started enabled=yes
- 
+  - block: # UBUNTU block
+
+    - name: install apache web server ubuntu
+      apt: name=apache2 state=latest
+
+    - name: copy WebPage to server
+      copy: src={{ source_file }} dest={{ destin_file }} mode=0555
+      notify: Restart apache ubuntu
+
+    - name: start web server and enable it on boot on ubuntu
+      service: name=apache2 state=started enabled=yes
+
+    when: ansible_os_family == "Ubuntu"
+
+
+  - block: # REDHAT block
+
+    - name: install apache web server redhat
+      yum: name=httpd state=latest
+
+    - name: copy WebPage to server
+      copy: src={{ source_file }} dest={{ destin_file }} mode=0555
+      notify: Restart apache redhat
+
+    - name: start web server and enable it on boot on redhat
+      service: name=httpd state=started enabled=yes
+  
+    when: ansible_os_family == "RedHat"
+
+
   handlers:
-  - name: Restart apache
+  - name: Restart apache ubuntu
     service: name=apache2 state=restarted
 
+  handlers:
+  - name: Restart apache redhat
+    service: name=httpd state=restarted
 ...
