@@ -26,16 +26,24 @@ resource "aws_key_pair" "kp" {
   }
 }
 
-resource "aws_instance" "webserver-ub" {
+resource "aws_instance" "back-ub" {
     ami = "ami-0fb653ca2d3203ac1"
     instance_type = "t2.micro"
     vpc_security_group_ids = [aws_security_group.webserver-ub.id]
     key_name = aws_key_pair.kp.key_name
-    user_data = templatefile("user-data.sh.tpl", {
-        f_name = "lol",
-        last_name = "nope",
-        names = ["1","2","3","4"]
-    })
+    provisioner "local-exec" {
+    command = "echo ${aws_instance.back-ub.public_ip} >> ip.txt"
+    }
+}
+
+resource "aws_instance" "front-ub" {
+    ami = "ami-0fb653ca2d3203ac1"
+    instance_type = "t2.micro"
+    vpc_security_group_ids = [aws_security_group.webserver-ub.id]
+    key_name = aws_key_pair.kp.key_name
+    provisioner "local-exec" {
+    command = "echo ${aws_instance.front-ub.public_ip} >> ip.txt"
+    }
 }
 
 resource "aws_security_group" "webserver-ub" {
