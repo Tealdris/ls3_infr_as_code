@@ -9,7 +9,7 @@
     debug: var=ansible_os_family
 
   - block: # UBUNTU block
-    - name: Git clone
+    - name: UB Git clone
       git:
         repo: https://github.com/Tealdris/webnotes.git
         dest: /home/ubuntu/webnotes/
@@ -21,7 +21,15 @@
 
     when: ansible_os_family == "Debian"
 
+  - block: # RH block
+    - name: RH Git clone
+      git:
+        repo: https://github.com/Tealdris/webnotes.git
+        dest: /home/ec2-user/webnotes/
+        clone: yes
+        update: yes
 
+    when: ansible_os_family == "RedHat"
 
 
 ...
