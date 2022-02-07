@@ -1,0 +1,24 @@
+---
+
+- name: Test connection on server
+  hosts: all
+  become: yes
+  
+  tasks: 
+
+  - name: Check and print linux dist
+    debug: var=ansible_os_family   
+    
+  - block: # UBUNTU block
+    - name: Ping ub
+      remote_user: ubuntu
+      ping:
+    when: ansible_os_family == "Debian"
+
+  - block: # ReedHat block
+    - name: Ping rh
+      remote_user: ec2-user
+      ping:
+    when: ansible_os_family == "RedHat"
+
+...

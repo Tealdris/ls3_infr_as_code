@@ -1,11 +1,6 @@
 
-[staging_servers]
-linuxN ansible_host=18.188.161.32 owner=master
+[back-lx]
+linux-lx ansible_host=18.218.38.201 owner=agent-lx-bc
 
-[prod_servers_ub]
-linux1 ansible_host=3.141.40.3 owner=agent_ub
-
-[prod_servers_rh]
-linux2 ansible_host=18.218.150.141 owner=agent_rh
-
-
+[fornt-ub]
+linux-ub ansible_host=18.188.224.146 owner=agent-ub-fr

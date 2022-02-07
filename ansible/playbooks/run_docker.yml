@@ -1,0 +1,60 @@
+---
+- name: run docker, docker-compose
+  hosts: all
+  become: yes
+  
+  tasks:
+
+  - name: Check and print linux dist
+    debug: var=ansible_os_family
+
+  - block: # UBUNTU block
+    - name: Git clone
+      git:
+        repo: https://github.com/Tealdris/webnotes.git
+        dest: /home/ubuntu/webnotes/
+        clone: yes
+        update: yes
+
+    - name: UB deploy Docker Compose stack
+      docker_compose:
+        project_src: /home/ubuntu/webnotes/
+        state: present
+        files:
+        - docker-compose.yml
+
+    - name: UB Restart services
+      docker_compose:
+        project_src: /home/ubuntu/webnotes/
+        build: yes
+        restarted: yes
+      register: output
+
+    when: ansible_os_family == "Debian"
+
+  - block: # RedHat block
+    - name: RH Git clone
+      git:
+        repo: https://github.com/Tealdris/webnotes.git
+        dest: /home/ec2-user/webnotes/
+        clone: yes
+        update: yes
+
+    - name: RH deploy Docker Compose stack
+      docker_compose:
+        project_src: /home/ec2-user/webnotes/
+        state: present
+        files:
+        - docker-compose.yml
+
+    - name: RH Restart services
+      docker_compose:
+        project_src: /home/ec2-user/webnotes/
+        build: yes
+        restarted: yes
+      register: output
+
+    when: ansible_os_family == "RedHat"
+
+
+...

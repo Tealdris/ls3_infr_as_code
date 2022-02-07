@@ -1,0 +1,6 @@
+---
+
+ansible_user: ubuntu
+ansible_ssh_private_key_file: /home/st10/Documents/git/ls3_infr_as_code/terraform/myKey.pem
+
+...

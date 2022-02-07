@@ -26,27 +26,27 @@ resource "aws_key_pair" "kp" {
   }
 }
 
-resource "aws_instance" "back-ub" {
-    ami = "ami-0fb653ca2d3203ac1"
+resource "aws_instance" "back-lx" {
+    ami = "ami-0231217be14a6f3ba"
     instance_type = "t2.micro"
-    vpc_security_group_ids = [aws_security_group.webserver-ub.id]
+    vpc_security_group_ids = [aws_security_group.webserver.id]
     key_name = aws_key_pair.kp.key_name
     provisioner "local-exec" {
-    command = "echo ${aws_instance.back-ub.public_ip} >> ip.txt"
+    command = "echo ${aws_instance.back-lx.public_ip} >> ip.txt"
     }
 }
 
 resource "aws_instance" "front-ub" {
     ami = "ami-0fb653ca2d3203ac1"
     instance_type = "t2.micro"
-    vpc_security_group_ids = [aws_security_group.webserver-ub.id]
+    vpc_security_group_ids = [aws_security_group.webserver.id]
     key_name = aws_key_pair.kp.key_name
     provisioner "local-exec" {
     command = "echo ${aws_instance.front-ub.public_ip} >> ip.txt"
     }
 }
 
-resource "aws_security_group" "webserver-ub" {
+resource "aws_security_group" "webserver" {
   name        = "webserver-security-group"
   description = "Allow all inbound traffic"
 
@@ -67,6 +67,20 @@ resource "aws_security_group" "webserver-ub" {
   ingress {
     from_port   = 22
     to_port     = 22
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+    ingress {
+    from_port   = 8000
+    to_port     = 8000
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+    ingress {
+    from_port   = 2377
+    to_port     = 2377
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }

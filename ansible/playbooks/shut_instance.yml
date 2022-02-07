@@ -1,0 +1,13 @@
+---
+- hosts: all
+  become: yes
+
+  tasks:
+   - name: Check the uptime prior reboot
+     shell: uptime
+     register: UPTIME_PRE_REBOOT
+
+   - debug: msg={{UPTIME_PRE_REBOOT.stdout}}
+
+   - name: Shutdown node and stop polling.
+     shell: shutdown -h now
