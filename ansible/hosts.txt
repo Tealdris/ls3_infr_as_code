@@ -1,6 +1,0 @@
-
-[back-lx]
-linux-lx ansible_host=18.218.38.201 owner=agent-lx-bc
-
-[fornt-ub]
-linux-ub ansible_host=18.188.224.146 owner=agent-ub-fr
