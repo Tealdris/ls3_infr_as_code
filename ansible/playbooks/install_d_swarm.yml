@@ -19,12 +19,6 @@
     register: result
     when: ansible_os_family == "Debian"
 
-  - name: Declare the address of the first Swarm manager as a fact.
-    set_fact:
-      docker_manager_address: "{{ manager }}:{{ docker_swarm_port }}"
-    when: "inventory_hostname == groups['fornt-ub'][0]"
-    when: ansible_os_family == "Debian"
-
   - name: Get the worker join-token.
     shell: docker swarm join-token worker | grep do
     changed_when: false
